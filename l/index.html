@@ -76,7 +76,7 @@ button:not(:disabled):active{transform:scale(.97)}
 </main><script>
 var $=function(s){return document.querySelector(s)};
 var id=location.pathname.split("/")[2],S,cur=0;
-function api(p,b){return fetch("/api/"+p,{method:"POST",headers:{"content-type":"application/json"},body:JSON.stringify(b)}).then(function(r){return r.json()})}
+function api(p,b){return fetch("https://redsquare.xah.workers.dev/api/"+p,{method:"POST",headers:{"content-type":"application/json"},body:JSON.stringify(b)}).then(function(r){return r.json()})}
 async function pow(ch,bits){for(var n=0;;n++){var h=new Uint8Array(await crypto.subtle.digest("SHA-256",new TextEncoder().encode(ch+":"+n)));var z=0;for(var i=0;i<h.length;i++){if(h[i]===0){z+=8;continue}z+=Math.clz32(h[i])-24;break}if(z>=bits)return n}}
 function sync(){var bs=document.querySelectorAll(".task button");
  $("#prog").textContent=cur+" of "+S.tasks.length+" tasks done";$("#fill").style.width=(cur/S.tasks.length*100)+"%";$("#unlock").disabled=cur<S.tasks.length;
