@@ -82,7 +82,7 @@ button:not(:disabled):active{transform:scale(.97)}
 <div id="out" class="card" style="margin-top:16px" hidden></div>
 </main><script>
 var $=function(s){return document.querySelector(s)};
-fetch("/api/config").then(function(r){return r.json()}).then(function(c){$("#tc").max=c.max;if(+$("#tc").value>c.max)$("#tc").value=c.max;rng()});
+fetch("https://redsquare.xah.workers.dev/config").then(function(r){return r.json()}).then(function(c){$("#tc").max=c.max;if(+$("#tc").value>c.max)$("#tc").value=c.max;rng()});
 function R(n){var a=new Uint8Array(n),cs="ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz23456789";crypto.getRandomValues(a);return Array.from(a,function(x){return cs[x%cs.length]}).join("")}
 function len(){var a=$("#sec").value.length,b=$("#dat").value.length;$("#lens").textContent=a+" / "+b+(a===b&&a>=16?" - match":" - lengths must match (16+)")}
 function rng(){var t=$("#tc"),p=(t.value-t.min)/Math.max(1,t.max-t.min)*100;t.style.setProperty("--p",p+"%");$("#tv").textContent=t.value;$("#tv").animate([{transform:"translateY(-8px)",opacity:.3},{transform:"none",opacity:1}],{duration:180})}
@@ -92,7 +92,7 @@ $("#gen").onclick=function(){$("#sec").value=R(32);$("#dat").value=R(32);len()};
 $("#sec").oninput=len;$("#dat").oninput=len;
 $("#go").onclick=async function(){
  var o=$("#out");o.hidden=false;o.textContent="Creating...";
- var r=await fetch("/api/create",{method:"POST",headers:{"content-type":"application/json"},body:JSON.stringify({url:$("#url").value,tasks:+$("#tc").value,at:$("#at").checked,secret:$("#sec").value,data:$("#dat").value})});
+ var r=await fetch("https://redsquare.xah.workers.dev/api/create",{method:"POST",headers:{"content-type":"application/json"},body:JSON.stringify({url:$("#url").value,tasks:+$("#tc").value,at:$("#at").checked,secret:$("#sec").value,data:$("#dat").value})});
  var j=await r.json();
  if(j.error){o.innerHTML='<span class="err"></span>';o.firstChild.textContent=j.error;return}
  o.innerHTML='<label>Your link</label><div class="row"><input id="lk" type="text" readonly><button id="cp">Copy link</button></div>'+($("#at").checked?'<p class="hint">Your destination will receive <code>?data=</code>. Verify it with the SDK using your signing secret and anti-tamper data. Neither is recoverable from this page later.</p>':'');
