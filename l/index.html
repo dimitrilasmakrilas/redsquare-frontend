@@ -65,7 +65,7 @@ button:not(:disabled):active{transform:scale(.97)}
 #unlock:not(:disabled){animation:glow 1.8s ease-out infinite}
 @keyframes glow{0%{box-shadow:0 0 0 0 rgba(211,34,27,.7)}100%{box-shadow:0 0 0 16px rgba(211,34,27,0)}}
 @media (prefers-reduced-motion:reduce){*,*:before,*:after{animation:none!important;transition:none!important}}
-</style></head><body><header><h1><span class="sq"></span></h1></header>
+</style></head><body><header><h1><span class="sq"></span>redsquare</h1></header>
 <main>
 <p class="sub" id="prog">Loading...</p>
 <div class="bar"><i id="fill"></i></div>
@@ -74,9 +74,10 @@ button:not(:disabled):active{transform:scale(.97)}
 <button class="big" id="unlock" disabled>Unlock link</button>
 <div class="ad"><!-- paste ad network HTML/script here (bottom banner) --></div>
 </main><script>
+var API="https://redsqure.xah.workers.dev"; // set to your worker address (e.g. "https://redsquare.you.workers.dev") only if this page is hosted somewhere else
 var $=function(s){return document.querySelector(s)};
-var id=location.pathname.split("/")[2],S,cur=0;
-function api(p,b){return fetch("https://redsqure.xah.workers.dev/api/"+p,{method:"POST",headers:{"content-type":"application/json"},body:JSON.stringify(b)}).then(function(r){return r.json()})}
+var id=new URLSearchParams(location.search).get("s"),S,cur=0;
+function api(p,b){return fetch(API+"/api/"+p,{method:"POST",headers:{"content-type":"application/json"},body:JSON.stringify(b)}).then(function(r){return r.json()})}
 async function pow(ch,bits){for(var n=0;;n++){var h=new Uint8Array(await crypto.subtle.digest("SHA-256",new TextEncoder().encode(ch+":"+n)));var z=0;for(var i=0;i<h.length;i++){if(h[i]===0){z+=8;continue}z+=Math.clz32(h[i])-24;break}if(z>=bits)return n}}
 function sync(){var bs=document.querySelectorAll(".task button");
  $("#prog").textContent=cur+" of "+S.tasks.length+" tasks done";$("#fill").style.width=(cur/S.tasks.length*100)+"%";$("#unlock").disabled=cur<S.tasks.length;
